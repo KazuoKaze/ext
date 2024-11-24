@@ -40,77 +40,54 @@ const data = {
       plan: "Enterprise",
     },
   ],
-  // navMain: [
-  //   {
-  //     title: "Create",
-  //     url: "#",
-  //     icon: SquareTerminal,
-  //     isActive: false,
-  //   },
-  //   {
-  //     title: "Edit",
-  //     url: "#",
-  //     icon: Bot,
-  //   },
-  //   {
-  //     title: "Documentation",
-  //     url: "#",
-  //     icon: BookOpen,
-  //     items: [
-  //       {
-  //         title: "Introduction",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Get Started",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Tutorials",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Changelog",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Settings",
-  //     url: "#",
-  //     icon: Settings2,
-  //     items: [
-  //       {
-  //         title: "General",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Team",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Billing",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Limits",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  // ],
-  projects: [
+  navMain: [
     {
-      name: "Create",
+      title: "Create",
       url: "#",
-      icon: Frame,
+      icon: SquareTerminal,
+      isActive: false,
     },
     {
-      name: "Edit Image",
+      title: "Edit",
       url: "#",
-      icon: PieChart,
+      icon: Bot,
+    },
+    {
+      title: "Documentation",
+      url: "#",
+      icon: BookOpen,
+      items: [
+        {
+          title: "Introduction",
+          url: "#",
+        },
+        {
+          title: "Get Started",
+          url: "#",
+        },
+        {
+          title: "Tutorials",
+          url: "#",
+        },
+        {
+          title: "Changelog",
+          url: "#",
+        },
+      ],
     },
   ],
+  // projects: [
+  //   {
+  //     name: "Create",
+  //     url: "#",
+  //     icon: Frame,
+  //   },
+  //   {
+  //     name: "Edit Image",
+  //     url: "#",
+  //     icon: PieChart,
+  //   },
+  // ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -120,8 +97,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        {/* <NavMain items={data.navMain} /> */}
-        <NavProjects projects={data.projects} />
+        <NavMain items={data.navMain} />
+        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
