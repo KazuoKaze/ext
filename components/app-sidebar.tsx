@@ -25,85 +25,96 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { useUserData } from '@/hooks/useUserData';
+import { Skeleton } from "@/components/ui/skeleton";
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+const navMainData = [
+  {
+    title: "Create",
+    url: "#",
+    icon: SquareTerminal,
+    isActive: false,
   },
-  teams: [
-    {
-      name: "Our Name",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-  ],
-  navMain: [
-    {
-      title: "Create",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: false,
-    },
-    {
-      title: "Edit",
-      url: "#",
-      icon: Bot,
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  // projects: [
-  //   {
-  //     name: "Create",
-  //     url: "#",
-  //     icon: Frame,
-  //   },
-  //   {
-  //     name: "Edit Image",
-  //     url: "#",
-  //     icon: PieChart,
-  //   },
-  // ],
+  {
+    title: "Edit",
+    url: "#",
+    icon: Bot,
+  },
+  {
+    title: "Documentation",
+    url: "#",
+    icon: BookOpen,
+    items: [
+      {
+        title: "Introduction",
+        url: "#",
+      },
+      {
+        title: "Get Started",
+        url: "#",
+      },
+      {
+        title: "Tutorials",
+        url: "#",
+      },
+      {
+        title: "Changelog",
+        url: "#",
+      },
+    ],
+  },
+];
+
+interface AppSidebarProps {
+  className?: string
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ className }: AppSidebarProps) {
+  const { profile, loading } = useUserData();
+
+  const teamData = {
+    name: "Our Name",
+    logo: GalleryVerticalEnd,
+    plan: "Enterprise",
+  };
+
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
-      </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
-        {/* <NavProjects projects={data.projects} /> */}
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
-      <SidebarRail />
-    </Sidebar>
-  )
+    <div className="md:block">
+      <Sidebar className={className} collapsible="icon">
+        <SidebarHeader>
+          {loading ? (
+            <Skeleton className="h-10 w-full" />
+          ) : (
+            <TeamSwitcher
+              defaultValue={{
+                name: teamData.name,
+                logo: teamData.logo,
+              }}
+            />
+          )}
+        </SidebarHeader>
+        <SidebarContent>
+          {loading ? (
+            <Skeleton className="h-[200px] w-full" />
+          ) : (
+            <NavMain items={navMainData} />
+          )}
+        </SidebarContent>
+        <SidebarFooter>
+          {loading ? (
+            <Skeleton className="h-10 w-full" />
+          ) : profile && (
+            <NavUser
+              user={{
+                name: profile.username,
+                email: profile.email,
+                avatar: `/avatars/${profile.username}.jpg`,
+              }}
+            />
+          )}
+        </SidebarFooter>
+        <SidebarRail />
+      </Sidebar>
+    </div>
+  );
 }
